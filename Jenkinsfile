@@ -79,7 +79,7 @@ pipeline{
                 script {
                     kubeconfig(credentialsId: 'Kubecred', serverUrl: '') {
                         // Apply the Kubernetes YAML file
-                bat "kubectl apply -f eks-deploy-k8s.yml"
+                                bat "kubectl apply -f eks-deploy-k8s.yaml"
             }
         }
             }
