@@ -45,9 +45,9 @@ pipeline{
     }
         stage('Remove previous images') {
             steps {
-             bat "docker image -f rmi ${DOCKER_NAMESPACE}/${env.JOB_NAME}:4"   
-             bat "docker image -f rmi ${DOCKER_NAMESPACE}/${env.JOB_NAME}:V1"
-			 bat "docker image -f rmi ${DOCKER_NAMESPACE}/${env.JOB_NAM}:latest"
+             bat "docker rmi -f  ${DOCKER_NAMESPACE}/${env.JOB_NAME}:4"   
+             bat "docker rmi  -f ${DOCKER_NAMESPACE}/${env.JOB_NAME}:V1"
+			 bat "docker rmi -f ${DOCKER_NAMESPACE}/${env.JOB_NAM}:latest"
             }
         }
 
