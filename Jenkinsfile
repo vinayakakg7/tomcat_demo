@@ -43,8 +43,6 @@ pipeline{
                }
             }
     }
-
-    stages {
         stage('Remove previous images') {
             steps {
                 sh "docker images -q ${DOCKER_NAMESPACE}/${env.JOB_NAME}:${env.BUILD_ID}| xargs docker rmi -f"
