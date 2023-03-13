@@ -74,16 +74,16 @@ pipeline{
       }
      }
 
-      stage('Deploy to Minikube') {
-            steps {
-                script {
-                    kubeconfig(credentialsId: 'Kubecred', serverUrl: '') {
+     // stage('Deploy to Minikube') {
+      //      steps {
+        //        script {
+          //          kubeconfig(credentialsId: 'Kubecred', serverUrl: '') {
                         // Apply the Kubernetes YAML file
-                                bat "kubectl apply -f eks-deploy-k8s.yaml"
-            }
-        }
-            }
-      }
+            //                    bat "kubectl apply -f eks-deploy-k8s.yaml"
+           // }
+       // }
+        //    }
+     // }
      
 }
 }
