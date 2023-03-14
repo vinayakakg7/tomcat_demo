@@ -46,7 +46,7 @@ pipeline{
        steps{
           withCredentials([sshUserPrivateKey(credentialsId: 'Tomcat_User', keyFileVariable: '')]) {
           bat
-          "scp -o StrictHostKeyChecking=no target/myweb.war  
+          "scp -o StrictHostKeyChecking=no target/springbootApp.Jar
           ec2-user@15.207.113.178:/opt/tomcat/webapps/
           ssh ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh
           ssh ec2-user@15.207.113.178 /opt/tomcat/bin/startup.sh"
