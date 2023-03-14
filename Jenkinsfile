@@ -45,7 +45,8 @@ pipeline{
       stage('Deploy to tomcat server') {
 		  steps {
 			  script {
-					deploy adapters: [tomcat9(path: '', url: 'http://15.207.113.178:8080')], contextPath: null, war: '**/*.jar'
+				//	deploy adapters: [tomcat9(path: '', url: 'http://15.207.113.178:8080')], contextPath: null, war: '**/*.jar'
+                     sh 'curl -u deployer:deployer -T target/*.jar "http://15.207.113.178:8080/manager/text/deploy?path=''&update=true"'
 					
 					}
 				}
