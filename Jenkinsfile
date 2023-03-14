@@ -45,7 +45,7 @@ pipeline{
       stage("deploy-dev"){
        steps{
           sshagent(['Tomcat_User']) {
-          sh """
+          bat """
           scp -o StrictHostKeyChecking=no target/springbootApp.jar  
           ec2-user@15.207.113.178:/opt/tomcat/webapps/
           ssh ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh
