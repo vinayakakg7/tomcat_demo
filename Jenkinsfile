@@ -47,9 +47,9 @@ pipeline{
           sshagent(['Tomcat_User']) {
           bat """
           scp -o StrictHostKeyChecking=no target/springbootApp.jar  
-          ec2-user@15.207.113.178:/opt/tomcat/webapps/
-          ssh ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh
-          ssh ec2-user@15.207.113.178 /opt/tomcat/bin/startup.sh
+          ec2-user@3.110.41.175:/opt/tomcat/webapps/
+          ssh ec2-user@3.110.41.175 /opt/tomcat/bin/shutdown.sh
+          ssh ec2-user@3.110.41.175 /opt/tomcat/bin/startup.sh
 
           """
     }
