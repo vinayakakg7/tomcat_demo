@@ -21,16 +21,16 @@ pipeline{
                 bat 'mvn clean install -DskipTests=true'
             }
         }
-    stage('Run SonarQube analysis') {
-          steps {
+   // stage('Run SonarQube analysis') {
+     //     steps {
 
-             script{
-                withSonarQubeEnv(credentialsId: 'sonarapi') {
-                    bat 'mvn clean package sonar:sonar'
-               }
-           }
-           }
-       }
+       //      script{
+         //       withSonarQubeEnv(credentialsId: 'sonarapi') {
+            //        bat 'mvn clean package sonar:sonar'
+           //    }
+          // }
+     //      }
+     //  }
        
   //  stage('Check quality gate status') {
     //    steps {
@@ -45,13 +45,13 @@ pipeline{
       stage("deploy-dev"){
        steps{
           withCredentials([sshUserPrivateKey(credentialsId: 'Tomcat_User', keyFileVariable: '')]) {
-          bat """
-          scp -o StrictHostKeyChecking=no target/springbootApp.jar  
-          ec2-user@15.207.254.111:/opt/tomcat/webapps/
-          ssh ec2-user@15.207.254.111 /opt/tomcat/bin/shutdown.sh
-          ssh ec2-user@15.207.254.111 /opt/tomcat/bin/startup.sh
+          bat
+          "scp -o StrictHostKeyChecking=no target/myweb.war  
+          ec2-user@15.207.113.178:/opt/tomcat/webapps/
+          ssh ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh
+          ssh ec2-user@15.207.113.178 /opt/tomcat/bin/startup.sh"
 
-          """
+          
     }
 	}
       }
