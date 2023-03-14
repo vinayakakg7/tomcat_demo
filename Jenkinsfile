@@ -42,14 +42,13 @@ pipeline{
                //}
             //}
    // }
-      stage('Deploy to tomcat server') {
-		  steps {
-			  script {
-				//	deploy adapters: [tomcat9(path: '', url: 'http://15.207.113.178:8080')], contextPath: null, war: '**/*.jar'
-                     sh 'curl -u deployer:deployer -T springbootApp.jar "http://15.207.113.178:8080/manager/text/deploy?path=''&update=true"'
-					
-					}
-				}
-		}
+      stage("deploy-dev"){
+       steps{
+          sshagent(['tomcat_deploy']) {
+          sh 
+          "scp -o StrictHostKeyChecking=no target/myweb.war  
+          ubuntu@15.207.113.178:/opt/tomcat/webapps/
+          ssh ubuntu@15.207.113.178 /opt/tomcat/bin/shutdown.sh
+          ssh ubuntu@15.207.113.178 /opt/tomcat/bin/startup.sh"
     }
 	}
