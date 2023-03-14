@@ -7,7 +7,7 @@ pipeline{
     }
 
     environment{
-        GIT_REPO = 'https://github.com/vinayakakg7/springboot_demo.git'
+        GIT_REPO = 'https://github.com/vinayakakg7/tomcat_demo.git'
         GIT_BRANCH = 'main'
         DOCKER_NAMESPACE = "vinayakakg7"
     }
@@ -33,57 +33,22 @@ pipeline{
            }
        }
        
-    stage('Check quality gate status') {
-        steps {
-            script {
-                def qg = waitForQualityGate()
-                if (qg.status != 'OK') {
-                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                    }
-               }
-            }
-    }
-        stage('Remove previous images') {
-            steps {
-             bat "docker rmi -f  ${DOCKER_NAMESPACE}/${env.JOB_NAME}:12"   
-             bat "docker rmi  -f ${DOCKER_NAMESPACE}/${env.JOB_NAME}:V1"
-			 bat "docker rmi -f ${DOCKER_NAMESPACE}/${env.JOB_NAM}:latest"
-            }
-        }
-
-    stage('Docker image build'){
-      steps{
-        script{
-			def imageTag = "${DOCKER_NAMESPACE}/${env.JOB_NAME}:${env.BUILD_ID}"
-			 bat "docker build -t ${imageTag} -f Dockerfile ."
-             bat "docker image tag ${DOCKER_NAMESPACE}/${env.JOB_NAME}:${env.BUILD_ID} ${DOCKER_NAMESPACE}/${env.JOB_NAME}:V1"
-			 bat "docker image tag ${DOCKER_NAMESPACE}/${env.JOB_NAME}:${env.BUILD_ID} ${DOCKER_NAMESPACE}/${env.JOB_NAME}:latest"
-
-        }
-      }
-    }
-     stage('Push image to DockerHub'){
-      steps{
-        script{
-          withCredentials([string(credentialsId: 'Docker_Credenti' , variable: 'Docker_Credent')]) {
-            bat "docker login -u vinayakakg7 -p ${Docker_Credent}"
-            bat "docker image push ${DOCKER_NAMESPACE}/${env.JOB_NAME}:V1"
-            bat "docker image push ${DOCKER_NAMESPACE}/${env.JOB_NAME}:latest"
-          }
-        }
-      }
-     }
-
-     // stage('Deploy to Minikube') {
-      //      steps {
-        //        script {
-          //          kubeconfig(credentialsId: 'Kubecred', serverUrl: '') {
-                        // Apply the Kubernetes YAML file
-            //                    bat "kubectl apply -f eks-deploy-k8s.yaml"
-           // }
-       // }
-        //    }
-     // }
-     
-}
-}
+  //  stage('Check quality gate status') {
+    //    steps {
+      //      script {
+        //        def qg = waitForQualityGate()
+          //      if (qg.status != 'OK') {
+            //            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              //      }
+               //}
+            //}
+   // }
+      stage('Deploy to tomcat server')
+		  steps {
+			  script {
+					deploy adapters: [tomcat9(path: '', url: 'http://15.207.113.178:8080')], contextPath: null, war: 'springbootApp.jar'
+					
+					}
+				}
+		}
+	}
