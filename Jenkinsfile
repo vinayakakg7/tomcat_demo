@@ -18,7 +18,7 @@ pipeline{
         }
     stage('Build and test using Maven') {
             steps {
-                bat 'mvn clean install -DskipTests=true'
+                sh 'mvn clean install -DskipTests=true'
             }
         }
    // stage('Run SonarQube analysis') {
