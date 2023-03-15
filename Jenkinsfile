@@ -44,11 +44,11 @@ pipeline{
    // }
       stage("deploy-dev"){
        steps{
-          withCredentials([sshUserPrivateKey(credentialsId: 'Tomcat_User', keyFileVariable: '')]) {
+          sshagent(['deploy_User']) {
         
-      sh  "scp -o StrictHostKeyChecking= no C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\K8sdemo\\target\\springbootApp.jar ec2-user@15.207.113.178: /opt/tomcat/webapps/ "
-      sh  "ssh ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh"
-      sh "ssh ec2-user@15.207.113.178 /opt/tomcat/bin/startup.sh" 
+     		sh  "scp -o StrictHostKeyChecking= no /K8sdemo/target/springbootApp.jar ec2-user@65.1.108.188:/opt/tomcat/webapps/ "
+      		sh  "ssh ec2-user@65.1.108.18 /opt/tomcat/bin/shutdown.sh"
+     		sh "ssh ec2-user@65.1.108.18 /opt/tomcat/bin/startup.sh" 
 
           
     }
