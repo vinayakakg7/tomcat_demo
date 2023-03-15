@@ -46,7 +46,7 @@ pipeline{
        steps{
           sshagent(['deploy_User']) {
         
-     		sh  "scp -o StrictHostKeyChecking=no /demo/target/springbootApp ec2-user@65.1.108.188:/opt/tomcat/webapps/ "
+     		sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/target/springbootApp.jar ec2-user@65.1.108.188:/opt/tomcat/webapps/ "
       		sh  "ssh ec2-user@65.1.108.18 /opt/tomcat/bin/shutdown.sh"
      		sh "ssh ec2-user@65.1.108.18 /opt/tomcat/bin/startup.sh" 
 
