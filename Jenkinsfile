@@ -18,7 +18,7 @@ pipeline{
         }
     stage('Build and test using Maven') {
             steps {
-                bat 'mvn clean install -DskipTests=true'
+                sh 'mvn clean install -DskipTests=true'
             }
         }
 //    stage('Run SonarQube analysis') {
@@ -55,9 +55,8 @@ pipeline{
 //					}
 //				}
 //			}  
-//  }
-    
-    stage('Post') {     
+//  } 
+}  
     post{     
             failure{
             mail to: 'vinayakakg7@gmail.com',
@@ -66,15 +65,13 @@ pipeline{
                                          Please investigate and fix the issue."""
     }
     success{
-      // Send an email notification if the build succeeds
             mail to: 'vinayakakg7@gmail.com',
             subject: "Build successful in ${currentBuild.fullDisplayName}",
             body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
                    Congratulations!"""
     }
   }
-} 
 }
-}
+
 
 	
