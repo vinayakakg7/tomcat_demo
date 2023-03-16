@@ -56,9 +56,9 @@ pipeline{
 //				}
 //			}  
 //  }
-    }
+    
           
-    post {
+    post{
                 
             failure {
       // Send an email notification if the build fails
@@ -75,6 +75,7 @@ pipeline{
                    Congratulations!"""
     }
   }
-}    
+} 
+}
 
 	
