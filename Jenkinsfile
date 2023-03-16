@@ -18,7 +18,7 @@ pipeline{
         }
     stage('Build and test using Maven') {
             steps {
-                bat 'mvn clean install -DskipTests=true'
+                sh 'mvn clean install -DskipTests=true'
             }
         }
 //    stage('Run SonarQube analysis') {
@@ -44,6 +44,7 @@ pipeline{
 //		}
       stage("deploy-dev"){
        steps{
+<<<<<<< HEAD
           sshagent(['deploy_User']) { 
         
 						sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/springbootApp.jar ec2-user@15.207.113.178: /opt/tomcat/webapps/ "
@@ -56,3 +57,17 @@ pipeline{
 			}
 		}
 	}
+=======
+          sshagent(['deploy_User']) {
+        
+     		sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/target/springbootApp.jar ec2-user@65.1.108.188:/opt/tomcat/webapps/ "
+      		sh  "ssh ec2-user@65.1.108.18 /opt/tomcat/bin/shutdown.sh"
+     		sh "ssh ec2-user@65.1.108.18 /opt/tomcat/bin/startup.sh" 
+
+          
+    }
+	}
+      }
+    }
+}
+>>>>>>> e597b13a4c093fcdb44bc9c7627796ee2f10cd37
