@@ -54,12 +54,10 @@ pipeline{
           
 					}
 				}
-			}
-
-        stage("Email_Notification"){
-       steps{
-             
-            post {
+			}  
+    }
+}           
+    post {
                 
                    failure {
       // Send an email notification if the build fails
@@ -76,9 +74,6 @@ pipeline{
                    Congratulations!"""
     }
   }
-}
+    
 
-		}
-    }
-}
 	
