@@ -44,7 +44,7 @@ pipeline{
 //		}
       stage("deploy-dev"){
        steps{
-<<<<<<< HEAD
+ 
           sshagent(['deploy_User']) { 
         
 						sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/springbootApp.jar ec2-user@15.207.113.178: /opt/tomcat/webapps/ "
@@ -55,19 +55,23 @@ pipeline{
 					}
 				}
 			}
+            post {
+    failure {
+      // Send an email notification if the build fails
+      mail to: 'vinayakakg7@gmail.com',
+           subject: "Build failed in ${currentBuild.fullDisplayName}",
+           body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
+                   Please investigate and fix the issue."""
+    }
+    success {
+      // Send an email notification if the build succeeds
+      mail to: 'vinayakakg7@gmail.com',
+           subject: "Build successful in ${currentBuild.fullDisplayName}",
+           body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
+                   Congratulations!"""
+    }
+  }
+}
+
 		}
 	}
-=======
-          sshagent(['deploy_User']) {
-        
-     		sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/target/springbootApp.jar ec2-user@65.1.108.188:/opt/tomcat/webapps/ "
-      		sh  "ssh ec2-user@65.1.108.18 /opt/tomcat/bin/shutdown.sh"
-     		sh "ssh ec2-user@65.1.108.18 /opt/tomcat/bin/startup.sh" 
-
-          
-    }
-	}
-      }
-    }
-}
->>>>>>> e597b13a4c093fcdb44bc9c7627796ee2f10cd37
