@@ -55,6 +55,9 @@ pipeline{
 					}
 				}
 			}
+
+        stage("Email_Notification"){
+       steps{
              
             post {
                 
