@@ -42,38 +42,38 @@ pipeline{
 //               }
 //            }
 //		}
-      stage("deploy-dev"){
-       steps{
- 
-          sshagent(['deploy_User']) { 
+//     stage("deploy-dev"){
+//     steps{
+
+//          sshagent(['deploy_User']) { 
         
-						sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/springbootApp.jar ec2-user@15.207.113.178: /opt/tomcat/webapps/ "
-						sh  "ssh -o StrictHostKeyChecking=no ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh"
-						sh  "ssh -o StrictHostKeyChecking=no ec2-user@15.207.113.178 /opt/tomcat/bin/startup.sh" 
+//						sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/springbootApp.jar ec2-user@15.207.113.178: /opt/tomcat/webapps/ "
+//						sh  "ssh -o StrictHostKeyChecking=no ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh"
+//						sh  "ssh -o StrictHostKeyChecking=no ec2-user@15.207.113.178 /opt/tomcat/bin/startup.sh" 
 
           
-					}
-				}
-			}  
-    }
+//					}
+//				}
+//			}  
+//  }
           
     post {
                 
-                   failure {
+            failure {
       // Send an email notification if the build fails
-                             mail to: 'vinayakakg7@gmail.com',
-                             subject: "Build failed in ${currentBuild.fullDisplayName}",
-                             body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
+            mail to: 'vinayakakg7@gmail.com',
+            subject: "Build failed in ${currentBuild.fullDisplayName}",
+            body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
                                          Please investigate and fix the issue."""
     }
     success {
       // Send an email notification if the build succeeds
-        mail to: 'vinayakakg7@gmail.com',
-           subject: "Build successful in ${currentBuild.fullDisplayName}",
-           body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
+            mail to: 'vinayakakg7@gmail.com',
+            subject: "Build successful in ${currentBuild.fullDisplayName}",
+            body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
                    Congratulations!"""
     }
   }
 }    
-
+}
 	
