@@ -55,13 +55,15 @@ pipeline{
 					}
 				}
 			}
+             
             post {
-                    failure {
+                
+                   failure {
       // Send an email notification if the build fails
-                     mail to: 'vinayakakg7@gmail.com',
-                     subject: "Build failed in ${currentBuild.fullDisplayName}",
-                     body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
-                              Please investigate and fix the issue."""
+                             mail to: 'vinayakakg7@gmail.com',
+                             subject: "Build failed in ${currentBuild.fullDisplayName}",
+                             body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
+                                         Please investigate and fix the issue."""
     }
     success {
       // Send an email notification if the build succeeds
