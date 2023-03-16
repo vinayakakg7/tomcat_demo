@@ -57,17 +57,15 @@ pipeline{
 //			}  
 //  }
     
-          
-    post{
-                
-            failure {
-      // Send an email notification if the build fails
+    stage('Post') {     
+    post{     
+            failure{
             mail to: 'vinayakakg7@gmail.com',
             subject: "Build failed in ${currentBuild.fullDisplayName}",
             body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
                                          Please investigate and fix the issue."""
     }
-    success {
+    success{
       // Send an email notification if the build succeeds
             mail to: 'vinayakakg7@gmail.com',
             subject: "Build successful in ${currentBuild.fullDisplayName}",
@@ -76,6 +74,7 @@ pipeline{
     }
   }
 } 
+}
 }
 
 	
