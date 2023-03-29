@@ -68,6 +68,7 @@ post {
                   Please investigate and fix the issue\n More info at: ${env.BUILD_URL}"""
             attachmentsPattern: "${logFile}"
             }
+	}
         success {
 	   script {
                 def logFile = currentBuild.rawBuild.getLogFile()
@@ -80,6 +81,6 @@ post {
     }
   }   
 }
-
+}
 
 	
