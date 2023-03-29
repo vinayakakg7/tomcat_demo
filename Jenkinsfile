@@ -62,14 +62,14 @@ pipeline{
         mail(to: 'vinayakakg7@gmail.com, vinayaka.kg@cyqurex.com',
             subject: "Build failed in ${currentBuild.fullDisplayName}",
             body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
-            Please investigate and fix the issue.""" ,
+            Please investigate and fix the issue."""
             attachLog())
     }
     success {
         mail(to: 'vinayakakg7@gmail.com, vinayaka.kg@cyqurex.com',
             subject: "Build successful in ${currentBuild.fullDisplayName}",
             body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
-            Congratulations!""" ,
+            Congratulations!"""
             attachLog())
     }
 }
