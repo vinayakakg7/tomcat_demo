@@ -58,29 +58,26 @@ pipeline{
 //  } 
 }  
 post {     
-        failure {
-	   script {
-                def logFile = currentBuild.rawBuild.getLogFile()
-            mail to: 'vinayakakg7@gmail.com , vinayaka.kg@cyqurex.com',
-            subject: "Build failed in ${currentBuild.fullDisplayName}",
-         //   emailext attachLog: true, attachmentsPattern: 'generatedFile.txt',
-            body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
-                  Please investigate and fix the issue\n More info at: ${env.BUILD_URL}"""
-            attachmentsPattern: "${logFile}"
-            }
-	}
-        success {
-	   script {
-                def logFile = currentBuild.rawBuild.getLogFile()
-            mail to: 'vinayakakg7@gmail.com , vinayaka.kg@cyqurex.com',
-            subject: "Build successful in ${currentBuild.fullDisplayName}",
-          //  emailext attachLog: true, attachmentsPattern: 'generatedFile.txt',
-            body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
-                   Congratulations!\n More info at: ${env.BUILD_URL}"""
-            attachmentsPattern: "${logFile}"
+    failure {
+        script {
+            def logFile = currentBuild.rawBuild.getLogFile()
+            mail to: 'akg7@gmail.com',
+                 subject: "Build failed in ${currentBuild.fullDisplayName}",
+                 body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
+Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
+                 attachmentsPattern: "${logFile}"
+        }
     }
-  }   
+    success {
+        script {
+            def logFile = currentBuild.rawBuild.getLogFile()
+            mail to: 'akg7@gmail.com',
+                 subject: "Build successful in ${currentBuild.fullDisplayName}",
+                 body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
+Congratulations!\n More info at: ${env.BUILD_URL}""",
+                 attachmentsPattern: "${logFile}"
+        }
+    }
+ }
 }
-}
-
 	
