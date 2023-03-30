@@ -1,3 +1,4 @@
+import hudson.model.Attachment
 def attachBuildLogs() {
     try {
         def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
