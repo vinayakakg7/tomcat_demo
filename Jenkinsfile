@@ -59,7 +59,7 @@ pipeline {
 }  
  post {
      failure {
-         emailext attachmentsPattern: "C:\\ProgramData\\Jenkins\\.jenkins\\jobs\\${JOB_NAME}\\builds\\${BUILD_NUMBER}\\log",  
+         emailext attachmentsPattern: "${env.WORKSPACE}\\**\\*.log", 
 	          to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
                   subject: "Build failed in ${currentBuild.fullDisplayName}",
                   body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
@@ -67,7 +67,7 @@ pipeline {
         }
 		
      success {
-          emailext attachmentsPattern: "C:\\ProgramData\\Jenkins\\.jenkins\\jobs\\${JOB_NAME}\\builds\\${BUILD_NUMBER}\\log",
+         emailext attachmentsPattern: "${env.WORKSPACE}\\**\\*.log",
 	     	   to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
                    subject: "Build successful in ${currentBuild.fullDisplayName}",
                    body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
