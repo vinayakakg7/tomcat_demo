@@ -58,6 +58,19 @@ pipeline{
 //  } 
 }  
  post {
+  def attachBuildLogs() {
+    try {
+        def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
+        def logFile = new File(buildLogFile)
+        if (logFile.exists()) {
+            def attachment = new hudson.model.Attachment(buildLogFile, "text/plain")
+            currentBuild.rawBuild.getAttachments().put(attachment)
+        }
+    } catch (Exception e) {
+        println "Failed to attach build logs: ${e}"
+    }
+}
+}
         failure {
             script {
 		        mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
@@ -80,21 +93,6 @@ pipeline{
                 attachBuildLogs()
         }
     }
-
-def attachBuildLogs() {
-    try {
-        def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
-        def logFile = new File(buildLogFile)
-        if (logFile.exists()) {
-            def attachment = new hudson.model.Attachment(buildLogFile, "text/plain")
-            currentBuild.rawBuild.getAttachments().put(attachment)
-        }
-    } catch (Exception e) {
-        println "Failed to attach build logs: ${e}"
-    }
-}
-}
-}
 
 
 	
