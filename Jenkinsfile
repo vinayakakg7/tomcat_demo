@@ -1,5 +1,3 @@
-import hudson.model.Attachment
-
 
 def attachBuildLogs() {
     try {
@@ -13,7 +11,7 @@ def attachBuildLogs() {
         println "Failed to attach build logs: ${e}"
     }
 }
-
+import hudson.model.Attachment
 pipeline{
     agent any
 
