@@ -57,26 +57,43 @@ pipeline{
 //			}  
 //  } 
 }  
-post {     
-    failure {
-           //  archiveArtifacts 'build.log'
-      	    // emailext attachLog: true,
-              mail  to: 'vinayakg7@gmail.com, sharath.s@cyqurex.com, vinayaka.kg@cyqurex.com',
+ post {
+        failure {
+            script {
+		        mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
                  subject: "Build failed in ${currentBuild.fullDisplayName}",
                  body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
-Please investigate and fix the issue\n More info at: ${env.BUILD_URL}"""
-              //   attachmentsPattern: "**/build.log"
+            Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
+                // attach build failure logs
+                attachBuildLogs()
+            }
         }
-    success {
-           //  archiveArtifacts 'build.log'
-      	     //emailext attachLog: true,
-                mail to: 'vinayakg7@gmail.com, sharath.s@cyqurex.com, vinayaka.kg@cyqurex.com',
+		
+	    success {
+			script {
+             
+            mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
                  subject: "Build successful in ${currentBuild.fullDisplayName}",
                  body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
-      Congratulations!\n More info at: ${env.BUILD_URL}"""
-	      //attachmentsPattern: "**/build.log"
+      Congratulations!\n More info at: ${env.BUILD_URL}""",
+	   // attach build failure logs
+                attachBuildLogs()
         }
     }
- }
+
+def attachBuildLogs() {
+    try {
+        def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
+        def logFile = new File(buildLogFile)
+        if (logFile.exists()) {
+            def attachment = new hudson.model.Attachment(buildLogFile, "text/plain")
+            currentBuild.rawBuild.getAttachments().put(attachment)
+        }
+    } catch (Exception e) {
+        println "Failed to attach build logs: ${e}"
+    }
+}
+}
+
 
 	
