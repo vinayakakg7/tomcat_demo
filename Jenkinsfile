@@ -58,35 +58,20 @@ pipeline {
 //  } 
 }  
  post {
-        always {
-	def attachBuildLogs() {
-      try {
-        def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
-        def logFile = new File(buildLogFile)
-        if (logFile.exists()) {
-            def attachment = new hudson.model.Attachment(buildLogFile, "text/plain")
-            currentBuild.rawBuild.getAttachments().put(attachment)
-        }
-    } catch (Exception e) {
-        println "Failed to attach build logs: ${e}"
-    }
-}
-            script {
-                attachBuildLogs()
-            }
-        }
         failure {
-            mail to: 'vin7@gmail.com, vinayaka.kg@cyx.com',
+          emailext   mail to: 'vin7@gmail.com, vinayaka.kg@cyx.com',
                  subject: "Build failed in ${currentBuild.fullDisplayName}",
                  body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
-            Please investigate and fix the issue\n More info at: ${env.BUILD_URL}"""
+            Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
+            attachmentsPattern: "**/build.log"
         }
 		
 	    success {
-            mail to: 'vinay7@gmail.com, vinayaka.kg@cx.com',
+          emailext   mail to: 'vinay7@gmail.com, vinayaka.kg@cx.com',
                  subject: "Build successful in ${currentBuild.fullDisplayName}",
                  body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
-      Congratulations!\n More info at: ${env.BUILD_URL}"""
+      Congratulations!\n More info at: ${env.BUILD_URL}""",
+             attachmentsPattern: "**/build.log"
         }
 	}
 }
