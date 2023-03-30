@@ -59,7 +59,6 @@ pipeline{
 }  
 post {     
     failure {
-        script {
              archiveArtifacts 'build.log'
       	     emailext attachLog: true,
             mail to: 'vinayakg7@gmail.com, sharath.s@cyqurex.com, vinayaka.kg@cyqurex.com',
@@ -68,9 +67,7 @@ post {
 Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
                  attachmentsPattern: "${logFile}"
         }
-    }
     success {
-        script {
              archiveArtifacts 'build.log'
       	     emailext attachLog: true,
             mail to: 'vinayakg7@gmail.com, sharath.s@cyqurex.com, vinayaka.kg@cyqurex.com'
@@ -80,5 +77,5 @@ Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
         }
     }
  }
-}
+
 	
