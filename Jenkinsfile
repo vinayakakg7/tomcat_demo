@@ -58,40 +58,40 @@ pipeline{
 //  } 
 }  
  post {
-    failure {
-        script {
-            mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
-            subject: "Build failed in ${currentBuild.fullDisplayName}",
-            body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
+        failure {
+            script {
+                def attachBuildLogs() {
+                    try {
+                        def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
+                        def logFile = new File(buildLogFile)
+                        if (logFile.exists()) {
+                            def attachment = new hudson.model.Attachment(buildLogFile, "text/plain")
+                            currentBuild.rawBuild.getAttachments().put(attachment)
+                        }
+                    } catch (Exception e) {
+                        println "Failed to attach build logs: ${e}"
+                    }
+                }
+                // attach build failure logs
+                attachBuildLogs()
+                // send failure email
+                mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
+                 subject: "Build failed in ${currentBuild.fullDisplayName}",
+                 body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
             Please investigate and fix the issue\n More info at: ${env.BUILD_URL}"""
-            // attach build failure logs
-            attachBuildLogs()
+            }
         }
-    }
-    success {
-        script {
-            mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
-            subject: "Build successful in ${currentBuild.fullDisplayName}",
-            body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
-            Congratulations!\n More info at: ${env.BUILD_URL}"""
-            // attach build success logs
-            attachBuildLogs()
+        success {
+            script {
+                // attach build success logs
+                attachBuildLogs()
+                // send success email
+                mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
+                 subject: "Build successful in ${currentBuild.fullDisplayName}",
+                 body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
+      Congratulations!\n More info at: ${env.BUILD_URL}"""
+            }
         }
     }
 }
-
-def attachBuildLogs() {
-    try {
-        def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
-        def logFile = new File(buildLogFile)
-        if (logFile.exists()) {
-            def attachment = new hudson.model.Attachment(buildLogFile, "text/plain")
-            currentBuild.rawBuild.getAttachments().put(attachment)
-        }
-    } catch (Exception e) {
-        println "Failed to attach build logs: ${e}"
-    }
-}
-}
-
 	
