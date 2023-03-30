@@ -58,9 +58,9 @@ pipeline {
 //  } 
 }  
  post {
-
-    def attachBuildLogs() {
-    try {
+        always {
+	def attachBuildLogs() {
+      try {
         def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
         def logFile = new File(buildLogFile)
         if (logFile.exists()) {
@@ -71,7 +71,6 @@ pipeline {
         println "Failed to attach build logs: ${e}"
     }
 }
-        always {
             script {
                 attachBuildLogs()
             }
