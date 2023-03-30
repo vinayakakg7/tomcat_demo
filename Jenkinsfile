@@ -59,19 +59,21 @@ pipeline {
 }  
  post {
      failure {
-         emailext attachmentsPattern: "${env.WORKSPACE}\\**\\*.log", 
+         emailext 
 	          to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
                   subject: "Build failed in ${currentBuild.fullDisplayName}",
                   body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
-                      Please investigate and fix the issue\n More info at: ${env.BUILD_URL}"""
+                      Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
+	    attachments: "${env.WORKSPACE}/build.log"
         }
 		
      success {
-         emailext attachmentsPattern: "${env.WORKSPACE}\\**\\*.log",
+         emailext
 	     	   to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
                    subject: "Build successful in ${currentBuild.fullDisplayName}",
                    body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
-                       Congratulations!\n More info at: ${env.BUILD_URL}"""
+                       Congratulations!\n More info at: ${env.BUILD_URL}""",
+	   attachments: "${env.WORKSPACE}/build.log"
      }
     }
 }
