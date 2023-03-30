@@ -1,5 +1,3 @@
-
-
 pipeline {
     agent any
 
@@ -60,6 +58,19 @@ pipeline {
 //  } 
 }  
  post {
+
+    def attachBuildLogs() {
+    try {
+        def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
+        def logFile = new File(buildLogFile)
+        if (logFile.exists()) {
+            def attachment = new hudson.model.Attachment(buildLogFile, "text/plain")
+            currentBuild.rawBuild.getAttachments().put(attachment)
+        }
+    } catch (Exception e) {
+        println "Failed to attach build logs: ${e}"
+    }
+}
         always {
             script {
                 attachBuildLogs()
@@ -78,19 +89,5 @@ pipeline {
                  body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
       Congratulations!\n More info at: ${env.BUILD_URL}"""
         }
-
-def attachBuildLogs() {
-    try {
-        def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
-        def logFile = new File(buildLogFile)
-        if (logFile.exists()) {
-            def attachment = new hudson.model.Attachment(buildLogFile, "text/plain")
-            currentBuild.rawBuild.getAttachments().put(attachment)
-        }
-    } catch (Exception e) {
-        println "Failed to attach build logs: ${e}"
-    }
-}
-	
-}
+	}
 }
