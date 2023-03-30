@@ -58,7 +58,29 @@ pipeline{
 //  } 
 }  
  post {
-  def attachBuildLogs() {
+    failure {
+        script {
+            mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
+            subject: "Build failed in ${currentBuild.fullDisplayName}",
+            body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
+            Please investigate and fix the issue\n More info at: ${env.BUILD_URL}"""
+            // attach build failure logs
+            attachBuildLogs()
+        }
+    }
+    success {
+        script {
+            mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
+            subject: "Build successful in ${currentBuild.fullDisplayName}",
+            body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
+            Congratulations!\n More info at: ${env.BUILD_URL}"""
+            // attach build success logs
+            attachBuildLogs()
+        }
+    }
+}
+
+def attachBuildLogs() {
     try {
         def buildLogFile = "${env.BUILD_LOG_MULTIFILE}"
         def logFile = new File(buildLogFile)
@@ -71,29 +93,5 @@ pipeline{
     }
 }
 }
-        failure {
-            script {
-		        mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
-                 subject: "Build failed in ${currentBuild.fullDisplayName}",
-                 body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
-            Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
-                // attach build failure logs
-                attachBuildLogs()
-            }
-        }
-		
-	    success {
-			script {
-             
-            mail to: 'vinayakg7@gmail.com, vinayaka.kg@cyqurex.com',
-                 subject: "Build successful in ${currentBuild.fullDisplayName}",
-                 body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
-      Congratulations!\n More info at: ${env.BUILD_URL}""",
-	   // attach build failure logs
-                attachBuildLogs()
-        }
-    }
-}
-
 
 	
