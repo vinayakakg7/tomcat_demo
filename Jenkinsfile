@@ -61,7 +61,7 @@ post {
     failure {
         script {
             def logFile = currentBuild.rawBuild.getLogFile()
-            mail to: 'vinayakg7@gmail.com',
+            mail to: 'vinayakg7@gmail.com, sharath.s@cyqurex.com',
                  subject: "Build failed in ${currentBuild.fullDisplayName}",
                  body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
 Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
@@ -71,7 +71,7 @@ Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
     success {
         script {
             def logFile = currentBuild.rawBuild.getLogFile()
-            mail to: 'vinayakg7@gmail.com',
+            mail to: 'vinayakg7@gmail.com, sharath.s@cyqurex.com',
                  subject: "Build successful in ${currentBuild.fullDisplayName}",
                  body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
 Congratulations!\n More info at: ${env.BUILD_URL}""",
