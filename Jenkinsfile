@@ -78,7 +78,7 @@ pipeline {
                        Congratulations!\n More info at: ${env.BUILD_URL}""",
 	  	  attachLog: true,
 		  compressLog: true
-)
+          )
      }
     }
 }
