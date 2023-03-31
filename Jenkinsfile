@@ -76,7 +76,8 @@ pipeline {
                    subject: "Build successful in ${currentBuild.fullDisplayName}",
                    body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
                        Congratulations!\n More info at: ${env.BUILD_URL}""",
-	  	  attachLog: true
+	  	  attachLog: true,
+		  compressLog: true
 )
      }
     }
