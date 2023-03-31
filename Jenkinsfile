@@ -42,26 +42,26 @@ pipeline {
 //               }
 //            }
 //		}
-//     stage("deploy-dev"){
-//     steps{
+     stage("deploy-dev"){
+     steps{
 
-//          sshagent(['deploy_User']) { 
+          sshagent(['deploy_User']) { 
         
-//						sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/springbootApp.jar ec2-user@15.207.113.178: /opt/tomcat/webapps/ "
-//						sh  "ssh -o StrictHostKeyChecking=no ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh"
-//						sh  "ssh -o StrictHostKeyChecking=no ec2-user@15.207.113.178 /opt/tomcat/bin/startup.sh" 
+						sh  "scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/demo/springbootApp.jar ec2-user@15.207.113.178: /opt/tomcat/webapps/ "
+						sh  "ssh -o StrictHostKeyChecking=no ec2-user@15.207.113.178 /opt/tomcat/bin/shutdown.sh"
+						sh  "ssh -o StrictHostKeyChecking=no ec2-user@15.207.113.178 /opt/tomcat/bin/startup.sh" 
 
           
-//					}
-//				}
-//			}  
-//  } 
-}  
+				}
+			    }
+			}  
+                   }
+	
  post {
      failure {
          
 	 emailext (
-	     	  to: 'vinayakakg7@gmail.com, sharath.s@cyqurex.com, vinayaka.kg@cyqurex.com',
+	     	  to: 'vinayakakg7@gmail.com, vinayaka.kg@cyqurex.com',
                   subject: "Build failed in ${currentBuild.fullDisplayName}",
                   body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has failed.
                       Please investigate and fix the issue\n More info at: ${env.BUILD_URL}""",
@@ -72,7 +72,7 @@ pipeline {
      success {
        
 	  emailext (
-	           to: 'vinayakakg7@gmail.com, sharath.s@cyqurex.com, vinayaka.kg@cyqurex.com',
+	           to: 'vinayakakg7@gmail.com, vinayaka.kg@cyqurex.com',
                    subject: "Build successful in ${currentBuild.fullDisplayName}",
                    body: """${env.JOB_NAME} build #${env.BUILD_NUMBER} has succeeded.
                        Congratulations!\n More info at: ${env.BUILD_URL}""",
